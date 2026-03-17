@@ -1,0 +1,29 @@
+create table student(rollno number,name varchar2(20),totalmarks number,result varchar2(4));
+
+insert into Student values(&rollno,'&name',&total,'&result');
+select * from Student;
+
+declare
+query1 varchar2(100):='create table Student_pass as(select * from Student where result=''pass'')';
+query2 varchar2(100):='create table Student_fail as(select * from Student where result=''fail'')';
+begin
+execute immediate query1;
+execute immediate query2;
+end;
+/
+
+SQL>declare
+cursor cpass is select * from Student_pass;
+cursor cfail is select * from Student_fail;
+begin
+dbms_output.put_line('LIST OF PASSED STUDENTS');
+for passrec in cpass loop
+dbms_output.put_line(passrec.name);
+end loop;
+dbms_output.put_line('LIST OF FAILED STUDENTS');
+for failrec in cfail loop
+dbms_output.put_line(failrec.name);
+end loop;
+end;
+/
+

@@ -1,0 +1,54 @@
+CREATE TABLE Sailors (
+sid NUMBER PRIMARY KEY,
+sname VARCHAR2(14) NOT NULL,
+rating NUMBER,
+age NUMBER );
+
+CREATE TABLE Boats (
+bid NUMBER PRIMARY KEY,
+bname VARCHAR2(15) NOT NULL,
+color VARCHAR2(10) );
+
+CREATE TABLE Reserves (
+sid NUMBER,
+bid NUMBER,
+day DATE,
+PRIMARY KEY (sid, bid, day),
+FOREIGN KEY (sid) REFERENCES Sailors(sid),
+FOREIGN KEY (bid) REFERENCES Boats(bid) );
+
+INSERT INTO Boats (bid, bname, color) VALUES (101, 'Ocean Queen', 'Red');(insert 4)
+
+INSERT INTO Reserves (sid, bid, day)
+VALUES (1, 101, TO_DATE('2025-01-10', 'YYYY-MM-DD'));(insert 4)
+
+select * from SAILORS;
+select * from Boats;
+select * from RESERVES;
+
+SELECT S.sid, S.sname, B.bname, R.day
+FROM Sailors S
+INNER JOIN Reserves R ON S.sid = R.sid
+INNER JOIN Boats B ON B.bid = R.bid;
+
+SELECT S.sid, S.sname, B.bname, R.day
+FROM Sailors S
+LEFT JOIN Reserves R ON S.sid = R.sid
+LEFT JOIN Boats B ON B.bid = R.bid;
+
+SELECT S.sname, B.bname, R.day
+FROM Sailors S
+RIGHT JOIN Reserves R ON S.sid = R.sid
+RIGHT JOIN Boats B ON B.bid = R.bid;
+
+SELECT S.sid, S.sname, B.bid, B.bname, R.day
+FROM Sailors S
+FULL OUTER JOIN Reserves R ON S.sid = R.sid
+FULL OUTER JOIN Boats B ON B.bid = R.bid;
+
+SELECT sid, S.sname, R.day
+FROM Sailors S
+NATURAL JOIN Reserves R;
+
+
+
